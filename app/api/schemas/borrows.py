@@ -7,7 +7,7 @@ class BorrowCreate(BaseModel):
     book_id: int
     reader_name: str
     borrow_date: datetime.datetime
-    return_date: datetime.datetime|None = None
+    return_date: datetime.datetime | None = None
 
 
 class BorrowFromDB(BorrowCreate):

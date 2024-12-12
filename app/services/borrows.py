@@ -11,7 +11,7 @@ class BorrowService:
         data_dict: dict = borrow.model_dump()  # prepare data
         async with self.uow:  # entrance to context
             book_id = data_dict['book_id']
-            await self.uow.book.change_count(book_id, 1)
+            await self.uow.book.change_count(book_id, -1)
             borrow_to_return = await self.uow.borrow.add_one(data_dict)
             await self.uow.commit()
             return borrow_to_return
@@ -29,5 +29,5 @@ class BorrowService:
     async def return_borrow(self, borrow_id: int) -> None:
         async with self.uow:
             borrow = await self.uow.borrow.return_book(borrow_id)
-            await self.uow.book.change_count(borrow.book_id, -1)
+            await self.uow.book.change_count(borrow.book_id, 1)
             await self.uow.commit()
