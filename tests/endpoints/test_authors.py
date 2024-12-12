@@ -34,7 +34,6 @@ async def test_create_author(ac: AsyncClient):
     response = await ac.post("/authors/",
                              json=await get_author_dict()
                              )
-
     assert response.status_code == 200
     assert response.json().get("first_name") == "Lando"
 

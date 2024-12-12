@@ -10,5 +10,9 @@ app.include_router(endpoints.books_router)
 app.include_router(endpoints.borrows_router)
 
 
-if __name__ == "__main__":
-    uvicorn.run(app="main:app")
+@app.get("/")
+async def read_root():
+    return {"message": "Welcome to the Library API server"}
+
+# if __name__ == "__main__":
+#     uvicorn.run(app="main:app", reload=True)

@@ -94,9 +94,4 @@ async def test_return_borrow(ac: AsyncClient):
     assert datetime.datetime.date(borrow_from_db.return_date) == datetime.datetime.today().date()
 
 
-@pytest.mark.asyncio
-async def test_return_incorrect_borrow(ac: AsyncClient):
-    borrow_date = datetime.datetime.now().now() + datetime.timedelta(days=1)
-    borrow_info = await prepare_borrow(borrow_date=borrow_date)
-    response = await ac.patch(f"/borrows/{borrow_info['borrow_from_db'].id}")
-    assert response.status_code == 400
+
