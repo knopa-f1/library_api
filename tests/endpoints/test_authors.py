@@ -6,7 +6,9 @@ from httpx import AsyncClient
 
 author_service = AuthorService(UnitOfWork())
 
+
 # prepare test data
+
 
 async def get_author_dict(update: bool = False) -> dict:
     author_dict = {
@@ -63,11 +65,12 @@ async def test_delete_author(ac: AsyncClient):
     response = await ac.delete(f"/authors/{author_from_db.id}")
     assert response.status_code == 200
 
+
 @pytest.mark.asyncio
 async def test_delete_incorrect_author(ac: AsyncClient):
-    author_from_db = await prepare_author()
     response = await ac.delete(f"/authors/9999999")
     assert response.status_code == 404
+
 
 @pytest.mark.asyncio
 async def test_update_author(ac: AsyncClient):
@@ -77,6 +80,3 @@ async def test_update_author(ac: AsyncClient):
     update_author_from_db: AuthorFromDB = await author_service.get_author(author_from_db.id)
     assert response.status_code == 200
     assert update_author_from_db.first_name == "Charles"
-
-
-

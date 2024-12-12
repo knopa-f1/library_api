@@ -4,7 +4,7 @@ from app.api.schemas.authors import AuthorFromDB
 from app.api.schemas.books import BookFromDB
 from app.api.schemas.borrows import BorrowFromDB
 
-from sqlalchemy import BigInteger, DateTime, String, Integer, ForeignKey
+from sqlalchemy import DateTime, String, Integer, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.database import Base
@@ -25,6 +25,7 @@ class Author(Base):
             last_name=self.last_name,
             birthdate=self.birthdate
         )
+
 
 class Book(Base):
     __tablename__ = "book"

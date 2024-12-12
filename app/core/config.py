@@ -1,6 +1,6 @@
 from pydantic import ConfigDict
 from pydantic_settings import BaseSettings
-from typing import Literal
+
 
 class Settings(BaseSettings):
 
@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     def ASYNC_TEST_DATABASE_URL(self):
         return f"postgresql+asyncpg://{self.TEST_DB_USER}:{self.TEST_DB_PASS}@{self.TEST_DB_HOST}:{self.TEST_DB_PORT}/{self.TEST_DB_NAME}"
 
-    model_config = ConfigDict(env_file = ".env")
+    model_config = ConfigDict(env_file=".env")
 
 
 settings = Settings()

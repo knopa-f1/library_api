@@ -1,17 +1,15 @@
-import asyncio
 import datetime
 
 import pytest
-from app.api.schemas.authors import AuthorCreate, AuthorFromDB
-from app.api.schemas.books import BookCreate, BookFromDB
+from app.api.schemas.books import BookFromDB
 from app.api.schemas.borrows import BorrowCreate, BorrowFromDB
 from app.services.borrows import BorrowService
 from app.utils.unitofwork import UnitOfWork
 from httpx import AsyncClient
 from tests.endpoints.test_books import prepare_book, book_service
 
-
 borrow_service = BorrowService(UnitOfWork())
+
 
 # prepare test data
 
@@ -28,7 +26,7 @@ async def get_borrow_info(borrow_date: datetime = datetime.datetime.now(), initi
     return {
         'borrow_dict': borrow_dict,
         'book_count': book_from_db.count
-        }
+    }
 
 
 async def prepare_borrow(borrow_date: datetime = datetime.datetime.now()) -> dict:
@@ -54,6 +52,7 @@ async def test_create_borrow(ac: AsyncClient):
     assert response.status_code == 200
     assert response.json().get("reader_name") == "Lewis"
     assert book_from_db.count == borrow_info['book_count'] - 1
+
 
 @pytest.mark.asyncio
 async def test_create_incorrect_borrow(ac: AsyncClient):
@@ -94,10 +93,10 @@ async def test_return_borrow(ac: AsyncClient):
     assert book_from_db.count == borrow_info['book_count']
     assert datetime.datetime.date(borrow_from_db.return_date) == datetime.datetime.today().date()
 
+
 @pytest.mark.asyncio
 async def test_return_incorrect_borrow(ac: AsyncClient):
     borrow_date = datetime.datetime.now().now() + datetime.timedelta(days=1)
     borrow_info = await prepare_borrow(borrow_date=borrow_date)
     response = await ac.patch(f"/borrows/{borrow_info['borrow_from_db'].id}")
     assert response.status_code == 400
-

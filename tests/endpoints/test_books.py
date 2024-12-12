@@ -1,13 +1,13 @@
 import pytest
-from app.api.schemas.authors import AuthorCreate, AuthorFromDB
+from app.api.schemas.authors import AuthorFromDB
 from app.api.schemas.books import BookCreate, BookFromDB
 from app.services.books import BookService
 from app.utils.unitofwork import UnitOfWork
 from httpx import AsyncClient
 from tests.endpoints.test_authors import prepare_author
 
-
 book_service = BookService(UnitOfWork())
+
 
 # prepare test data
 
@@ -54,6 +54,7 @@ async def test_get_book(ac: AsyncClient):
     assert response.status_code == 200
     assert response.json().get("description") == "McLaren"
 
+
 @pytest.mark.asyncio
 async def test_get_incorrect_book(ac: AsyncClient):
     response = await ac.get(f"/books/9999999")
@@ -66,10 +67,12 @@ async def test_delete_book(ac: AsyncClient):
     response = await ac.delete(f"/books/{book_from_db.id}")
     assert response.status_code == 200
 
+
 @pytest.mark.asyncio
 async def test_delete_incorrect_book(ac: AsyncClient):
     response = await ac.delete(f"/books/9999999")
     assert response.status_code == 404
+
 
 @pytest.mark.asyncio
 async def test_update_book(ac: AsyncClient):

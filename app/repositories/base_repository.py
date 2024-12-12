@@ -1,21 +1,9 @@
-from abc import ABC, abstractmethod
-
 from app.utils.exceptions import ItemNotFoundError
 from pydantic import BaseModel
-from sqlalchemy import select, insert, delete
+from sqlalchemy import select, insert
 from sqlalchemy.exc import NoResultFound
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.postgresql import insert as upsert
-
-
-# class AbstractRepository(ABC):
-#     @abstractmethod
-#     async def add_one(self, data: dict):
-#         raise NotImplementedError
-#
-#     @abstractmethod
-#     async def find_all(self):
-#         raise NotImplementedError
 
 
 class Repository:
@@ -57,7 +45,7 @@ class Repository:
             set_=data
         )
 
-        result = await self.session.execute(stmt)
+        await self.session.execute(stmt)
 
     async def delete(self, record_id: int) -> None:
         item = await self.get(record_id)

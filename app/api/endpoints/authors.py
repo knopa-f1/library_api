@@ -37,6 +37,7 @@ async def delete_author(author_id: int, author_service: AuthorService = Depends(
 
 
 @authors_router.put("/{author_id}")
-async def update_author(author_id: int, data: AuthorCreate, author_service: AuthorService = Depends(get_author_service)):
+async def update_author(author_id: int, data: AuthorCreate,
+                        author_service: AuthorService = Depends(get_author_service)):
     await author_service.update_author(author_id, data)
     return ItemSuccessfullyUpdated('author', {"id": author_id})

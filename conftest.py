@@ -1,11 +1,7 @@
 import asyncio
-from datetime import time
 from typing import AsyncGenerator
 
 import pytest
-import pytest_asyncio
-import requests
-import uvicorn
 from app.core.config import settings
 from httpx import AsyncClient, ASGITransport
 from main import app
@@ -13,10 +9,10 @@ from sqlalchemy import NullPool
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from app.db.database import Base
 
-
 engine_test = create_async_engine(settings.ASYNC_DATABASE_URL, poolclass=NullPool)
 async_session_maker = async_sessionmaker(engine_test, class_=AsyncSession, expire_on_commit=False)
 Base.metadata.bind = engine_test
+
 
 @pytest.fixture(scope="session")
 def event_loop():

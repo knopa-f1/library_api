@@ -35,8 +35,10 @@ class BorrowAlreadyReturned(HTTPException):
             detail=f'Borrow with filter= {item_filter} had been already returned {return_date}'
             )
 
+
 class BorrowDateLaterThanReturn(HTTPException):
-    def __init__(self, item_filter: dict, borrow_date: datetime.datetime, return_date: datetime.datetime, status_code: int = 400):
+    def __init__(self, item_filter: dict, borrow_date: datetime.datetime,
+                 return_date: datetime.datetime, status_code: int = 400):
         super().__init__(
             status_code=status_code,
             detail=f'Borrow with filter= {item_filter} has  borrow_date={borrow_date} and tried to return {return_date}'
